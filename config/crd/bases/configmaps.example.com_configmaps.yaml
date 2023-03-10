@@ -35,28 +35,38 @@ spec:
           spec:
             description: ConfigMapSpec defines the desired state of ConfigMap
             properties:
-              address:
-                type: string
-              dataDir:
-                description: postgresql.conf server settings - sample https://github.com/postgres/postgres/blob/master/src/backend/utils/misc/postgresql.conf.sample
-                type: string
-              database:
-                type: string
               hbaConf:
-                type: string
-              ipMask:
-                type: string
-              maxConnections:
-                type: integer
-              method:
-                type: string
-              port:
-                type: integer
-              type:
-                description: hba.conf connection settings - sample https://www.postgresql.org/docs/current/auth-pg-hba-conf.html
-                type: string
-              user:
-                type: string
+                description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
+                  Important: Run "make" to regenerate code after modifying this file'
+                items:
+                  properties:
+                    address:
+                      type: string
+                    database:
+                      type: string
+                    ipMask:
+                      type: string
+                    method:
+                      type: string
+                    type:
+                      description: hba.conf connection settings - sample https://www.postgresql.org/docs/current/auth-pg-hba-conf.html
+                      type: string
+                    user:
+                      type: string
+                  type: object
+                type: array
+              pgConf:
+                properties:
+                  dataDir:
+                    description: postgresql.conf server settings - sample https://github.com/postgres/postgres/blob/master/src/backend/utils/misc/postgresql.conf.sample
+                    type: string
+                  hbaFile:
+                    type: string
+                  maxConnections:
+                    type: integer
+                  port:
+                    type: integer
+                type: object
             type: object
           status:
             description: ConfigMapStatus defines the observed state of ConfigMap

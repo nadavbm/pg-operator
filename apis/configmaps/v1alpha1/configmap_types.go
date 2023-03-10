@@ -27,7 +27,11 @@ import (
 type ConfigMapSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	HbaConf []HbaConfLine  `json:"hbaConf,omitempty"`
+	PGConf  PostgresqlConf `json:"pgConf,omitempty"`
+}
 
+type HbaConfLine struct {
 	// hba.conf connection settings - sample https://www.postgresql.org/docs/current/auth-pg-hba-conf.html
 	Type     string `json:"type,omitempty"`
 	Database string `json:"database,omitempty"`
@@ -35,10 +39,12 @@ type ConfigMapSpec struct {
 	Address  string `json:"address,omitempty"`
 	IpMask   string `json:"ipMask,omitempty"`
 	Method   string `json:"method,omitempty"`
+}
 
+type PostgresqlConf struct {
 	// postgresql.conf server settings - sample https://github.com/postgres/postgres/blob/master/src/backend/utils/misc/postgresql.conf.sample
 	DataDir        string `json:"dataDir,omitempty"`
-	HbaConf        string `json:"hbaConf,omitempty"`
+	HbaFile        string `json:"hbaFile,omitempty"`
 	Port           int    `json:"port,omitempty"`
 	MaxConnections int    `json:"maxConnections,omitempty"`
 }
