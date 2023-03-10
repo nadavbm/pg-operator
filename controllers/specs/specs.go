@@ -77,8 +77,8 @@ func BuildConfigMap(ns string, cm *configmaps.ConfigMap) *v1.ConfigMap {
 		},
 		ObjectMeta: buildMetadata(name, ns, cm.APIVersion, cm.Kind, cm.UID),
 		Data: map[string]string{
-			"pg_hba.conf":     "###",
-			"postgresql.conf": "data_directory = /var/lib/postgresql/data/data-directory",
+			"pg_hba.conf":     generateHbaConf(cm),
+			"postgresql.conf": generatePostgresqlConf(cm),
 		},
 	}
 }
