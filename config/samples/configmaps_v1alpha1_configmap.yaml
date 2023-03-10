@@ -1,0 +1,12 @@
+apiVersion: configmaps.example.com/v1alpha1
+kind: ConfigMap
+metadata:
+  labels:
+    app.kubernetes.io/name: configmap
+    app.kubernetes.io/instance: configmap-sample
+    app.kubernetes.io/part-of: pg-operator
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/created-by: pg-operator
+  name: configmap-sample
+spec:
+  # TODO(user): Add fields here
