@@ -53,6 +53,11 @@ type ConfigMapReconciler struct {
 // For more details, check Reconcile and its Result here:
 // - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.14.1/pkg/reconcile
 func (r *ConfigMapReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
+	logger := zlog.New()
+	r.Logger = logger
+
+	r.Logger.Info("Start reconcile", zap.String("namespace", req.NamespacedName.Namespace))
+
 	var resource configmapsv1alpha1.ConfigMap
 	if err := r.Client.Get(context.Background(), req.NamespacedName, &resource); err != nil {
 		if errors.IsNotFound(err) {
@@ -66,7 +71,7 @@ func (r *ConfigMapReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 	var object v1.ConfigMap
 	if err := r.Get(ctx, req.NamespacedName, &object); err != nil {
 		if errors.IsNotFound(err) {
-			r.Logger.Info("create secret", zap.String("namespace", req.Namespace))
+			r.Logger.Info("create configmap", zap.String("namespace", req.Namespace))
 			obj := specs.BuildConfigMap(req.Namespace, &resource)
 			if err := r.Create(ctx, obj); err != nil {
 				r.Logger.Error("could not create", zap.String("object kind", obj.Kind))

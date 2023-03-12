@@ -19,7 +19,7 @@ const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456
 
 // BuildDeployment creates a kubernetes deployment specification
 func BuildDeployment(ns string, deploy *deployments.Deployment) *appsv1.Deployment {
-	name := "pg-deploy"
+	name := "postgres"
 	replicas := int32(numOfReplicas)
 	return &appsv1.Deployment{
 		TypeMeta: metav1.TypeMeta{
@@ -37,7 +37,7 @@ func BuildDeployment(ns string, deploy *deployments.Deployment) *appsv1.Deployme
 				Spec: v1.PodSpec{
 					Containers: []v1.Container{
 						{
-							Name:  "pg",
+							Name:  name,
 							Image: "postgres:" + deploy.Spec.PgVersion,
 							Ports: []v1.ContainerPort{
 								{
@@ -55,9 +55,9 @@ func BuildDeployment(ns string, deploy *deployments.Deployment) *appsv1.Deployme
 									v1.ResourceCPU:    resource.MustParse(deploy.Spec.CpuRequest),
 								},
 							},
-							Env: []v1.EnvVar{
-								getEnvVarSecretSource("CERT", "cert", "key.crt"),
-							},
+							//Env: []v1.EnvVar{
+							//	getEnvVarSecretSource("CERT", "cert", "key.crt"),
+							//},
 						},
 					},
 					RestartPolicy: v1.RestartPolicyAlways,

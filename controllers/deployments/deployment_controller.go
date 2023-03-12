@@ -53,6 +53,11 @@ type DeploymentReconciler struct {
 // For more details, check Reconcile and its Result here:
 // - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.14.1/pkg/reconcile
 func (r *DeploymentReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
+	logger := zlog.New()
+	r.Logger = logger
+
+	r.Logger.Info("Start reconcile", zap.String("namespace", req.NamespacedName.Namespace))
+
 	var resource deploymentsv1alpha1.Deployment
 	if err := r.Client.Get(context.Background(), req.NamespacedName, &resource); err != nil {
 		if errors.IsNotFound(err) {
